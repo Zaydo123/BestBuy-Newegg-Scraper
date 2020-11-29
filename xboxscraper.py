@@ -26,14 +26,12 @@ def twilio(number, MessageBODY):
                                   to=number
                               )
     print(message.sid)
-
 possibleBrowserAgents = ['Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
 'Mozilla/5.0 (Linux; Android 9; SM-A102U Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.136 Mobile Safari/537.36 Instagram 155.0.0.37.107 Android (28/9; 320dpi; 720x1468; samsung; SM-A102U; a10e; exynos7885; en_US; 239490550)',
 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36',
 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone10,1;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]'
 ]
-
 #bestbuy
 def bestbuy(proxiesDict):
     global inStockConfirmed
@@ -57,10 +55,8 @@ def bestbuy(proxiesDict):
     except:
         browserAgent = possibleBrowserAgents[random.randrange(len(possibleBrowserAgents))]
         proxiesDict = proxies.newproxy()
-    
     try:
         inStockBBY = soup.find('div',{'class':'fulfillment-add-to-cart-button'}).text
-        inStockBBY = 'd'
         if inStockBBY == 'Sold Out':
             print(Fore.RED,'SOLD OUT',Fore.RESET)
             #print(inStockBBY)
@@ -68,14 +64,8 @@ def bestbuy(proxiesDict):
             inStockConfirmed = True
             print(Fore.BLUE,"IN STOCK",Fore.RESET)
             twilio(phonenumbers,f'XBOX SERIES X IS IN STOCK :: URL = {bbylinks}')
-
-            
     except:
         pass
-
-        
-
-
 
 initialize(input('phone number:'))
 proxies.formatProxy()
@@ -88,3 +78,4 @@ while True:
     if inStockConfirmed == True:
         quit()
     time.sleep(10)
+
