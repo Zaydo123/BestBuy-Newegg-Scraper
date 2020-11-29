@@ -15,16 +15,17 @@ def initialize(phonenuminput):
 
 #funcs
 def twilio(number, MessageBODY):
+    print(number)
   #twilio messaging
-  account_sid = 'ACc99025e313cc1b5184aafcfdf798e6ae'
-  auth_token = 'd02878352724f9f9d7a228d70e3bf322'
-  client = Client(account_sid, auth_token)
-
-  message = client.messages.create(
-                                body=MessageBODY,
-                                from_='+16124318220',
-                                to=number
-                            )
+    account_sid = 'ACc99025e313cc1b5184aafcfdf798e6ae'
+    auth_token = 'd02878352724f9f9d7a228d70e3bf322'
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+                                  body=MessageBODY,
+                                  from_='+16124318220',
+                                  to=number
+                              )
+    print(message.sid)
 
 possibleBrowserAgents = ['Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
@@ -35,6 +36,8 @@ possibleBrowserAgents = ['Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)
 
 #bestbuy
 def bestbuy(proxiesDict):
+    global inStockConfirmed
+    inStockConfirmed = False
     browserAgent = possibleBrowserAgents[random.randrange(len(possibleBrowserAgents))]
     bbylinks = 'https://www.bestbuy.com/site/microsoft-xbox-series-x-1tb-console-black/6428324.p?skuId=6428324'
     headers = {'User-Agent': browserAgent}
@@ -43,6 +46,7 @@ def bestbuy(proxiesDict):
         requestBby = requests.get(bbylinks,headers=headers,proxies=proxiesDict,timeout=20)
         CodeError = 200
         soup = BeautifulSoup(requestBby.text, 'html.parser') 
+
     except (requests.exceptions.ConnectionError) as err:
         print(err)
         print('fail, new proxy')
@@ -56,12 +60,16 @@ def bestbuy(proxiesDict):
     
     try:
         inStockBBY = soup.find('div',{'class':'fulfillment-add-to-cart-button'}).text
+        inStockBBY = 'd'
         if inStockBBY == 'Sold Out':
             print(Fore.RED,'SOLD OUT',Fore.RESET)
             #print(inStockBBY)
         else:
+            inStockConfirmed = True
             print(Fore.BLUE,"IN STOCK",Fore.RESET)
             twilio(phonenumbers,f'XBOX SERIES X IS IN STOCK :: URL = {bbylinks}')
+
+            
     except:
         pass
 
@@ -77,5 +85,6 @@ print(proxiesDict)
 while True:
     bestbuy(proxiesDict)
     print(Fore.MAGENTA,'_________')
+    if inStockConfirmed == True:
+        quit()
     time.sleep(10)
-    
