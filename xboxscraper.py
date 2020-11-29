@@ -1,40 +1,65 @@
 from colorama import Fore
 import requests
 from bs4 import BeautifulSoup
-from twilio import rest
+from twilio.rest import Client
+import time
+import random
+import proxies
 
 #global variables
-phonenumbers = ['+16302473767']
-
+def initialize():
+    global phonenumbers
+    phonenumbers = '+16302473767'
 
 #funcs
 def twilio(number, MessageBODY):
   #twilio messaging
-  account_sid = 'AC07f855462959468deb84c800f18fd36f'
-  auth_token = 'cdb79ec2a3e8cee9205e39e25a525a0b'
+  account_sid = 'ACc99025e313cc1b5184aafcfdf798e6ae'
+  auth_token = 'd02878352724f9f9d7a228d70e3bf322'
   client = Client(account_sid, auth_token)
 
   message = client.messages.create(
                                 body=MessageBODY,
-                                from_='+16505294223',
+                                from_='+16124318220',
                                 to=number
                             )
 
-  print(message.sid)
 
 #bestbuy
-def bestbuy():
-    bbylinks = ['https://www.bestbuy.com/site/microsoft-xbox-series-x-1tb-console-black/6428324.p?skuId=6428324']
-    soup = BeautifulSoup(bbylinks[0].text, 'html.parser')
-    requestBby = requests.get(bbylinks[0])
+def bestbuy(proxiesDict):
+    bbylinks = 'https://www.bestbuy.com/site/microsoft-xbox-series-x-1tb-console-black/6428324.p?skuId=6428324'
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36'}
+    
     try:
-        inStockBBY = soup.find('button',{'class' : 'btn btn-disabled btn-lg btn-block add-to-cart-button'})
-        print(inStockBBY)
+        requestBby = requests.get(bbylinks,headers=headers,proxies=proxiesDict)
     except:
-        print('nope')
+        print('fail, new proxy')
+        proxies.newproxy()
+        print
         return
+    soup = BeautifulSoup(requestBby.text, 'html.parser') 
+    try:
+        inStockBBY = soup.find('div',{'class':'fulfillment-add-to-cart-button'}).text
+        if inStockBBY == 'Sold Out':
+            print(Fore.RED,'SOLD OUT',Fore.RESET)
+            #print(inStockBBY)
+        else:
+            print(Fore.BLUE,"IN STOCK",Fore.RESET)
+            for _ in phonenumbers:
+                print(_)
+                twilio(phonenumbers,f'XBOX SERIES X IS IN STOCK :: URL = {bbylinks}')
+            return
+    except:
+        pass
 
 
 
-
-bestbuy()
+initialize()
+proxies.formatProxy()
+proxies.newproxy()
+proxiesDict = proxies.proxiesDict
+print(proxiesDict)
+while True:
+    bestbuy(proxiesDict)
+    print(Fore.MAGENTA,'_________')
+    
