@@ -7,9 +7,9 @@ import random
 import proxies
 
 #global variables
-def initialize():
+def initialize(phonenuminput):
     global phonenumbers
-    phonenumbers = '+16302473767'
+    phonenumbers = str('+'+ phonenuminput)
 
 #funcs
 def twilio(number, MessageBODY):
@@ -34,8 +34,8 @@ def bestbuy(proxiesDict):
         requestBby = requests.get(bbylinks,headers=headers,proxies=proxiesDict)
     except:
         print('fail, new proxy')
-        proxies.newproxy()
-        print
+        proxiesDict = proxies.newproxy()
+        print(proxiesDict)
         return
     soup = BeautifulSoup(requestBby.text, 'html.parser') 
     try:
@@ -54,7 +54,7 @@ def bestbuy(proxiesDict):
 
 
 
-initialize()
+initialize(input('phone number:'))
 proxies.formatProxy()
 proxies.newproxy()
 proxiesDict = proxies.proxiesDict
