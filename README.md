@@ -1,5 +1,5 @@
 # BestBuy / Newegg Scraper
-Please run setup.py, then fill in the files according to these directions. Leave ```phonenumber.txt``` blank if you don't want to be texted or leave ```discord_web_hook_links.txt``` if you don't want to connect it with discord. For now, those are the only two contact methods. This bot does not buy anything, rather notifies you when something you choose goes in stock. Not all BestBuy links or Newegg links/products will work, but most of the links like the XBOX and the GPU's work for the most part. This is because not all product pages are the same, srry.
+Please run setup.pyw, then fill in the files according to these directions. Leave ```phonenumber.txt``` blank if you don't want to be texted or leave ```discord_web_hook_links.txt``` if you don't want to connect it with discord. For now, those are the only two contact methods. This bot does not buy anything, rather notifies you when something you choose goes in stock. Not all BestBuy links or Newegg links/products will work, but most of the links like the XBOX and the GPU's work for the most part. This is because not all product pages are the same, srry.
 
 # First
 ```pip install -r requirements.txt```
