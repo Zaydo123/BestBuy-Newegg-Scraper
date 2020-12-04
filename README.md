@@ -1,2 +1,2 @@
 # seriesXscraper
-too lazy to write a readme, but just run seriesXscraper and type in ur phonenumber to start
+just write ur shit in the config, each new element should be separated by a new line, not a comma.
