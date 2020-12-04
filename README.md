@@ -14,7 +14,7 @@ All proxies should be formatted either like this:
 ```
 Or like this:
 ```
-5.61.58.211 4329
+5.61.58.211    4329
 ```
 
 # Twilio File
