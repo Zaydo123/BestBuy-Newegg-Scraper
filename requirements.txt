@@ -1,0 +1,5 @@
+beautifulsoup4
+colorama
+discord-webhook
+requests
+twilio
