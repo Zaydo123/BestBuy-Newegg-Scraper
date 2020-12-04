@@ -3,6 +3,7 @@ Please run setup.py, then fill in the files according to these directions. Leave
 
 # First
 ```pip install -r requirements.txt```
+and then run ```setup.pyw```
 # Proxy File
 All proxies should be formatted either like this:
 ```
